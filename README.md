@@ -2,6 +2,7 @@
 import pandas as pd
 import seaborn as sns
 import matplotlib.pyplot as plt
+
 from calculator import calculate
 
 # Load example data.
@@ -50,4 +51,191 @@ plt.tight_layout()
     
 ![png](example_files/example_1_0.png)
     
+
+
+
+```python
+# See model files for expected units and biomarker names:
+for model in ['lin_age','lin_age_2']:
+
+    print(f'{model}:')
+    df_model = pd.read_csv(f'models/{model}.csv')
+    display(df_model[['biomarker','description']])
+
+```
+
+    lin_age:
+
+
+
+<div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>biomarker</th>
+      <th>description</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>BPXPLS</td>
+      <td>Pulse (30 second pulse x 2)</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>BPXSAR</td>
+      <td>Systolic blood pressure average (mmHg)</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>BPXDAR</td>
+      <td>Diastolic blood pressure average (mmHg)</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>BMXBMI</td>
+      <td>Body mass index (kg/m2)</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td>LBDIRNSI</td>
+      <td>Iron (umol/L)</td>
+    </tr>
+    <tr>
+      <th>...</th>
+      <td>...</td>
+      <td>...</td>
+    </tr>
+    <tr>
+      <th>58</th>
+      <td>fs3Score</td>
+      <td>Healthcare use index</td>
+    </tr>
+    <tr>
+      <th>59</th>
+      <td>LDLV</td>
+      <td>Low-density lipoprotein (mmol/L)</td>
+    </tr>
+    <tr>
+      <th>60</th>
+      <td>crAlbRat</td>
+      <td>Urine albumin-to-creatinine ratio (mg/g)</td>
+    </tr>
+    <tr>
+      <th>61</th>
+      <td>RIDAGEEX</td>
+      <td>Chronological age (months)</td>
+    </tr>
+    <tr>
+      <th>62</th>
+      <td>constant</td>
+      <td>C0 Constant</td>
+    </tr>
+  </tbody>
+</table>
+<p>63 rows × 2 columns</p>
+</div>
+
+
+    lin_age_2:
+
+
+
+<div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>biomarker</th>
+      <th>description</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>RIDAGEEX</td>
+      <td>Chronological Age (months)</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>BMXBMI</td>
+      <td>Log Body Mass Index (kg/m2)</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>BPXSAR</td>
+      <td>Systolic Blood Pressure (mmHg)</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>BPXDAR</td>
+      <td>Diastolic Blood Pressure (mmHg)</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td>BPXPLS</td>
+      <td>Pulse Rate (bpm)</td>
+    </tr>
+    <tr>
+      <th>...</th>
+      <td>...</td>
+      <td>...</td>
+    </tr>
+    <tr>
+      <th>56</th>
+      <td>LBXCOT</td>
+      <td>Smoking status / Cotinine (ng/mL)</td>
+    </tr>
+    <tr>
+      <th>57</th>
+      <td>fs1Score</td>
+      <td>Co-morbidity index</td>
+    </tr>
+    <tr>
+      <th>58</th>
+      <td>fs2Score</td>
+      <td>Self-health index</td>
+    </tr>
+    <tr>
+      <th>59</th>
+      <td>fs3Score</td>
+      <td>Healthcare use index</td>
+    </tr>
+    <tr>
+      <th>60</th>
+      <td>constant</td>
+      <td>C0 Constant</td>
+    </tr>
+  </tbody>
+</table>
+<p>61 rows × 2 columns</p>
+</div>
 
