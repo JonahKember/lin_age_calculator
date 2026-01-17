@@ -3,7 +3,6 @@ import pandas as pd
 import seaborn as sns
 import matplotlib.pyplot as plt
 from calculator import calculate
-%config InlineBackend.figure_format='retina'
 
 # Load example data.
 data = pd.read_csv('example_user.csv')
