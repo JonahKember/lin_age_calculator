@@ -19,7 +19,7 @@ def calculate(data: dict, z_limit: int = 6) -> dict:
     output['age'] = age
     output['gender'] = gender
 
-    for bio_age in ['lin_age','lin_age_2']:
+    for bio_age in ['lin_age','lin_age_2','pheno_age']:
 
         model = pd.read_csv(f'models/{bio_age}.csv')
         weights     = model[f'{gender}_weight'].values
