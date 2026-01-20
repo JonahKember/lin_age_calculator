@@ -1,9 +1,8 @@
 import numpy as np
 import pandas as pd
+from pathlib import Path
 
-from importlib.resources import files
-
-models_path = files('calculator').joinpath('models')
+models_path = Path(__file__).resolve().parent / 'models'
 gender_dict = {1:'male', 2:'female'}
 
 
