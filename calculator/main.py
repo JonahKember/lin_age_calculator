@@ -20,7 +20,7 @@ def calculate(data: dict, z_limit: int = 6) -> dict:
     output['age'] = age
     output['gender'] = gender
 
-    for bio_age in ['lin_age','lin_age_2','pheno_age']:
+    for bio_age in ['lin_age','lin_age_2']:
 
         model       = _get_model(bio_age)
         weights     = model[f'{gender}_weight'].values
