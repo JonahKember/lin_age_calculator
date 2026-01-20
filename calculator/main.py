@@ -78,21 +78,19 @@ def _get_model(bio_age):
 
 def _normalize_data(gender, data, model, z_limit):
 
-    medians         = model[f'{gender}_median'].values
-    deviations      = model[f'{gender}_MAD'].values
-    is_normalized   = model[f'{gender}_MAD'] != 1
-
     data_normed = data.copy()
 
-    # Get subset of to-be normalized features.
-    cols = is_normalized.index[is_normalized]
-    subset = data[cols]
+    model = model.set_index('biomarker')
+    for _, marker in model.iterrows():
 
-    # Normalize subset of features.
-    subset = (subset - medians[cols]) / deviations[cols]
-    subset = subset.clip(-z_limit, z_limit)
+        median    = marker[f'{gender}_median']
+        deviation = marker[f'{gender}_MAD']
 
-    data_normed[cols] = subset
+        if median == 0 and deviation == 1:
+            continue
+
+        data_normed[marker.name] = (data_normed[marker.name] - median) / deviation
+        data_normed[marker.name] = data_normed[marker.name].clip(-z_limit, z_limit)
 
     return data_normed
 
