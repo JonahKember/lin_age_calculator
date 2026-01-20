@@ -84,10 +84,15 @@ def _normalize_data(gender, data, model, z_limit):
 
     data_normed = data.copy()
 
-    cols = is_normalized[is_normalized].index
+    # Get subset of to-be normalized features.
+    cols = is_normalized.index[is_normalized]
+    subset = data[cols]
 
-    data_normed[cols] = (data[cols] - medians[cols]) / deviations[cols]
-    data_normed[cols] = data_normed[cols].clip(-z_limit, z_limit)
+    # Normalize subset of features.
+    subset = (subset - medians[cols]) / deviations[cols]
+    subset = subset.clip(-z_limit, z_limit)
+
+    data_normed[cols] = subset
 
     return data_normed
 
