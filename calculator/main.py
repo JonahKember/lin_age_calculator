@@ -1,7 +1,9 @@
 import numpy as np
 import pandas as pd
 
+from importlib.resources import files
 
+models_path = files('calculator').joinpath('models')
 gender_dict = {1:'male', 2:'female'}
 
 
@@ -21,15 +23,11 @@ def calculate(data: dict, z_limit: int = 6) -> dict:
 
     for bio_age in ['lin_age','lin_age_2','pheno_age']:
 
-        model = pd.read_csv(f'models/{bio_age}.csv')
+        model       = _get_model(bio_age)
         weights     = model[f'{gender}_weight'].values
-        medians     = model[f'{gender}_median'].values
-        deviations  = model[f'{gender}_MAD'].values
 
-        data_clean = _prepare_data(data, bio_age=bio_age)
-
-        data_normed = (data_clean - medians) / deviations
-        data_normed = data_normed.clip(-z_limit, z_limit)
+        data_clean  = _prepare_data(data, bio_age=bio_age)
+        data_normed = _normalize_data(gender, data_clean, model, z_limit)
 
         data_weighted = data_normed * weights
         delta_age = (data_weighted).sum()
@@ -46,7 +44,7 @@ def _prepare_data(data: pd.Series, bio_age: str) -> pd.Series:
     Prepare data for modeling.
     """
 
-    model = pd.read_csv(f'models/{bio_age}.csv')
+    model = _get_model(bio_age)
     biomarkers = model['biomarker'].to_numpy()
     log_markers = biomarkers[model['log_transform']]
 
@@ -71,6 +69,28 @@ def _prepare_data(data: pd.Series, bio_age: str) -> pd.Series:
     data_log[log_markers] = np.log(data[log_markers])
 
     return data_log
+
+
+def _get_model(bio_age):
+    model_path = models_path.joinpath(f'{bio_age}.csv')
+    model = pd.read_csv(model_path)
+    return model
+
+
+def _normalize_data(gender, data, model, z_limit):
+
+    medians         = model[f'{gender}_median'].values
+    deviations      = model[f'{gender}_MAD'].values
+    is_normalized   = model[f'{gender}_MAD'] != 1
+
+    data_normed = data.copy()
+
+    cols = is_normalized[is_normalized].index
+
+    data_normed[cols] = (data[cols] - medians[cols]) / deviations[cols]
+    data_normed[cols] = data_normed[cols].clip(-z_limit, z_limit)
+
+    return data_normed
 
 
 def _get_age_years(data):
