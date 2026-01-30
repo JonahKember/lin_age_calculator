@@ -31,6 +31,7 @@ def calculate(data: dict, z_limit: int = 6) -> dict:
         data_weighted = data_normed * weights
         delta_age = (data_weighted).sum()
 
+        output[f'{bio_age}__deviations']    = data_normed
         output[f'{bio_age}__contributions'] = data_weighted
         output[bio_age]= (age + delta_age).item()
         output[f'{bio_age}__delta'] = delta_age.item()
